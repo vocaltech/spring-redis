@@ -1,12 +1,10 @@
 package fr.vocaltech.spring.redis;
 
 import lombok.var;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -28,13 +26,19 @@ import org.springframework.data.redis.core.RedisOperations;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class RedisApplicationTests {
 	@Autowired
-	PositionRepository positionRepository;
+	private PositionRepository positionRepository;
 
 	@Autowired
-	RedisOperations<String, String> operations;
+	private RedisOperations<String, String> operations;
 
 	private GeoOperations<String, String> geoOperations;
 
+	@BeforeEach
+	void beforeEach() {
+		geoOperations = operations.opsForGeo();
+	}
+
+	@Disabled
 	@Test
 	@Order(1)
 	public void whenSavingPosition_thenAvailableOnRetrieval() {
@@ -58,18 +62,18 @@ public class RedisApplicationTests {
 	@Test
 	@Order(2)
 	public void testGeoAdd() {
-		// geoadd cities 1.4848071122378244 43.54025760156568 ramonville
+		geoOperations.add("gym31", new Point(1.4811232701076127, 43.53892440303041), "Basic Fit:31520:Ramonville");
+		geoOperations.add("gym31", new Point(1.49502784119392, 43.52448781411589), "Movida:31320:Castanet-Tolosan");
 
-		geoOperations = operations.opsForGeo();
-
-		geoOperations.add("cities", new Point(1.4848071122378244, 43.54025760156568), "Ramonville");
-
+		var positions = geoOperations.position("gym31", "Basic Fit:31520:Ramonville", "Movida:31320:Castanet-Tolosan");
+		assertEquals(2, positions.size());
 	}
 
+	@Disabled
 	@Test
 	@Order(3)
 	public void testGeoRadius() {
-		// georadius cities 1.4881504856522094 43.532946878330776 2 km
+		// GEORADIUS cities 1.4881504856522094 43.532946878330776 2 km
 
 		var circle = new Circle(new Point(1.4881504856522094, 43.532946878330776),
 				new Distance(2, RedisGeoCommands.DistanceUnit.KILOMETERS));
@@ -77,6 +81,10 @@ public class RedisApplicationTests {
 		var result = geoOperations.radius("cities", circle);
 
 		System.out.println("radius res: " + result);
+		System.out.println("res content: " + result.getContent());
+		System.out.println("res size: " + result.getContent().size());
+
+		result.getContent().forEach(geoResult -> System.out.println(geoResult.getContent().getName()));
 
 	}
 }
