@@ -69,9 +69,20 @@ public class RedisApplicationTests {
 		assertEquals(2, positions.size());
 	}
 
-	@Disabled
 	@Test
 	@Order(3)
+	public void testGeoDist() {
+		var distance = geoOperations.distance("gym31",
+				"Basic Fit:31520:Ramonville",
+				"Movida:31320:Castanet-Tolosan",
+				RedisGeoCommands.DistanceUnit.KILOMETERS);
+
+		System.out.println("distance: " + distance);
+	}
+
+	@Disabled
+	@Test
+	@Order(4)
 	public void testGeoRadius() {
 		// GEORADIUS cities 1.4881504856522094 43.532946878330776 2 km
 
