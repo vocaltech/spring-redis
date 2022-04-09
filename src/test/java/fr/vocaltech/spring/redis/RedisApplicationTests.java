@@ -82,22 +82,17 @@ public class RedisApplicationTests {
 		assertThat(distance.getValue()).isBetween(1.5, 2.0);
 	}
 
-	@Disabled
 	@Test
 	@Order(4)
 	public void testGeoRadius() {
-		// GEORADIUS cities 1.4881504856522094 43.532946878330776 2 km
+		var circle = new Circle(new Point(1.4874561145698026, 43.53105707122094),
+				new Distance(1.1, RedisGeoCommands.DistanceUnit.KILOMETERS));
 
-		var circle = new Circle(new Point(1.4881504856522094, 43.532946878330776),
-				new Distance(2, RedisGeoCommands.DistanceUnit.KILOMETERS));
+		var radiusResult = geoOperations.radius("gym31", circle);
+		var results = radiusResult.getContent();
 
-		var result = geoOperations.radius("cities", circle);
-
-		System.out.println("radius res: " + result);
-		System.out.println("res content: " + result.getContent());
-		System.out.println("res size: " + result.getContent().size());
-
-		result.getContent().forEach(geoResult -> System.out.println(geoResult.getContent().getName()));
-
+		assertThat(results.size()).isEqualTo(2);
+		assertThat(results.get(0).getContent().getName()).startsWith("Basic Fit");
+		assertThat(results.get(1).getContent().getName()).startsWith("Movida");
 	}
 }
