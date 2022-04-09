@@ -64,8 +64,8 @@ public class RedisApplicationTests {
 	@Test
 	@Order(2)
 	public void testGeoAdd() {
-		geoOperations.add("gym31", new Point(1.4811232701076127, 43.53892440303041), "Basic Fit:31520:Ramonville");
-		geoOperations.add("gym31", new Point(1.49502784119392, 43.52448781411589), "Movida:31320:Castanet-Tolosan");
+		geoOperations.add("gym31", new Point(1.481123, 43.538924), "Basic Fit:31520:Ramonville");
+		geoOperations.add("gym31", new Point(1.495027, 43.524487), "Movida:31320:Castanet-Tolosan");
 
 		var positions = geoOperations.position("gym31", "Basic Fit:31520:Ramonville", "Movida:31320:Castanet-Tolosan");
 		assertThat(positions.size()).isEqualTo(2);
@@ -95,4 +95,17 @@ public class RedisApplicationTests {
 		assertThat(results.get(0).getContent().getName()).startsWith("Basic Fit");
 		assertThat(results.get(1).getContent().getName()).startsWith("Movida");
 	}
+
+	@Test
+	@Order(5)
+	public void testGeoRadiusByMember_whenDistanceLower_2kms_thenReturn_NoMembers() {
+		var geoResults = geoOperations.radius("gym31",
+				"Basic Fit:31520:Ramonville",
+				new Distance(1.9, RedisGeoCommands.DistanceUnit.KILOMETERS));
+
+		System.out.println(geoResults);
+		assertThat(geoResults.getContent().size()).isEqualTo(1);
+	}
+
+
 }
