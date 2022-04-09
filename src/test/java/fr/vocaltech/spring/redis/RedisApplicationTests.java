@@ -103,8 +103,17 @@ public class RedisApplicationTests {
 				"Basic Fit:31520:Ramonville",
 				new Distance(1.9, RedisGeoCommands.DistanceUnit.KILOMETERS));
 
-		System.out.println(geoResults);
 		assertThat(geoResults.getContent().size()).isEqualTo(1);
+	}
+
+	@Test
+	@Order(6)
+	public void testGeoRadiusByMember_whenDistanceEquals_2kms_thenReturn_1Member() {
+		var geoResults = geoOperations.radius("gym31",
+				"Basic Fit:31520:Ramonville",
+				new Distance(2.0, RedisGeoCommands.DistanceUnit.KILOMETERS));
+
+		assertThat(geoResults.getContent().size()).isEqualTo(2);
 	}
 
 
