@@ -35,7 +35,7 @@ class RedisApplicationTests {
 	private GeoOperations<String, String> geoOperations;
 
 	@BeforeEach
-	void beforeEach() {
+	void init() {
 		geoOperations = operations.opsForGeo();
 	}
 
