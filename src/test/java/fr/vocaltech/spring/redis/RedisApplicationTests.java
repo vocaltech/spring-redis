@@ -74,6 +74,7 @@ class RedisApplicationTests {
 	}
 
 	@Test
+	@Tag("geo")
 	@Order(3)
 	void testGeoDist() {
 		var distance = geoOperations.distance("gym31",
@@ -85,6 +86,7 @@ class RedisApplicationTests {
 	}
 
 	@Test
+	@Tag("geo")
 	@Order(4)
 	void testGeoRadius() {
 		var circle = new Circle(new Point(1.4874561145698026, 43.53105707122094),
@@ -99,6 +101,7 @@ class RedisApplicationTests {
 	}
 
 	@Test
+	@Tag("geo")
 	@Order(5)
 	void testGeoRadiusByMember_whenDistanceLower_2kms_thenReturn_NoMembers() {
 		var geoResults = geoOperations.radius("gym31",
@@ -109,6 +112,7 @@ class RedisApplicationTests {
 	}
 
 	@Test
+	@Tag("geo")
 	@Order(6)
 	void testGeoRadiusByMember_whenDistanceEquals_2kms_thenReturn_1Member() {
 		var geoResults = geoOperations.radius("gym31",
@@ -117,6 +121,4 @@ class RedisApplicationTests {
 
 		assertThat(geoResults.getContent().size()).isEqualTo(2);
 	}
-
-
 }
