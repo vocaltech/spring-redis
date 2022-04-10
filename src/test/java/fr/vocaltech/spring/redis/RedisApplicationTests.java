@@ -43,21 +43,43 @@ class RedisApplicationTests {
 	@Tag("persistence")
 	@Order(1)
 	void whenSavingPosition_thenAvailableOnRetrieval() {
-		Position position = new Position(45.5, 1.5, Instant.now().toEpochMilli(), "track_id", "userId");
-
+		Position position = new Position(45.5, 1.5, Instant.now().toEpochMilli(), "track_1", "user_1");
 		Position savedPos = positionRepository.save(position);
 		String id = savedPos.getId();
 
+		var existsById = positionRepository.existsById(id);
+		assertThat(existsById).isTrue();
+
 		Optional<Position> pos = positionRepository.findById(id);
-
 		pos.ifPresent(v -> {
-			Instant tsInstant = Instant.ofEpochMilli(v.getTime());
-			String isoTs = DateTimeFormatter.ISO_INSTANT.format(tsInstant);
-			System.out.println("ISO ts: " + isoTs);
-
+			assertThat(v.getTrackId()).isEqualTo("track_1");
+			assertThat(v.getUserId()).isEqualTo("user_1");
 			assertThat(v.getLatitude()).isEqualTo(45.5);
 			assertThat(v.getLongitude()).isEqualTo(1.5);
 		});
+	}
+
+	@Test
+	@Tag("persistence")
+	@Order(2)
+	void whenUpdatingPosition_thenAvailableOnRetrieval() {
+		Position position = new Position(48.2, 1.3, Instant.now().toEpochMilli(), "track_2", "user_2");
+		Position savedPos = positionRepository.save(position);
+		String id = savedPos.getId();
+
+		var positionById = positionRepository.findById(id);
+		positionById.ifPresent(p -> {
+			assertThat(p.getLatitude()).isEqualTo(48.2);
+		});
+
+		positionById.get().setLatitude(49.5);
+		var updatedPos = positionRepository.save(positionById.get());
+
+		positionById = positionRepository.findById(id);
+		positionById.ifPresent(p -> {
+			assertThat(p.getLatitude()).isEqualTo(49.5);
+		});
+
 	}
 
 	@Test
