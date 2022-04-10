@@ -50,21 +50,19 @@ class RedisApplicationTests {
 
 		Optional<Position> pos = positionRepository.findById(id);
 
-		/*
-		pos.ifPresent(v -> assertEquals(45.5, v.getLatitude()));
-		pos.ifPresent(v -> assertEquals(1.5, v.getLongitude()));
-		 */
-
 		pos.ifPresent(v -> {
 			Instant tsInstant = Instant.ofEpochMilli(v.getTime());
 			String isoTs = DateTimeFormatter.ISO_INSTANT.format(tsInstant);
 			System.out.println("ISO ts: " + isoTs);
+
+			assertThat(v.getLatitude()).isEqualTo(45.5);
+			assertThat(v.getLongitude()).isEqualTo(1.5);
 		});
 	}
 
 	@Test
 	@Tag("geo")
-	@Order(2)
+	@Order(1)
 	void testGeoAdd() {
 		geoOperations.add("gym31", new Point(1.481123, 43.538924), "Basic Fit:31520:Ramonville");
 		geoOperations.add("gym31", new Point(1.495027, 43.524487), "Movida:31320:Castanet-Tolosan");
@@ -75,7 +73,7 @@ class RedisApplicationTests {
 
 	@Test
 	@Tag("geo")
-	@Order(3)
+	@Order(2)
 	void testGeoDist() {
 		var distance = geoOperations.distance("gym31",
 				"Basic Fit:31520:Ramonville",
@@ -87,7 +85,7 @@ class RedisApplicationTests {
 
 	@Test
 	@Tag("geo")
-	@Order(4)
+	@Order(3)
 	void testGeoRadius() {
 		var circle = new Circle(new Point(1.4874561145698026, 43.53105707122094),
 				new Distance(1.1, RedisGeoCommands.DistanceUnit.KILOMETERS));
@@ -102,7 +100,7 @@ class RedisApplicationTests {
 
 	@Test
 	@Tag("geo")
-	@Order(5)
+	@Order(4)
 	void testGeoRadiusByMember_whenDistanceLower_2kms_thenReturn_NoMembers() {
 		var geoResults = geoOperations.radius("gym31",
 				"Basic Fit:31520:Ramonville",
@@ -113,7 +111,7 @@ class RedisApplicationTests {
 
 	@Test
 	@Tag("geo")
-	@Order(6)
+	@Order(5)
 	void testGeoRadiusByMember_whenDistanceEquals_2kms_thenReturn_1Member() {
 		var geoResults = geoOperations.radius("gym31",
 				"Basic Fit:31520:Ramonville",
