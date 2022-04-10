@@ -2,7 +2,6 @@ package fr.vocaltech.spring.redis;
 
 import lombok.var;
 import org.junit.jupiter.api.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +12,20 @@ import java.time.format.DateTimeFormatter;
 
 import java.util.Optional;
 
-import fr.vocaltech.spring.redis.models.Position;
-import fr.vocaltech.spring.redis.repositories.PositionRepository;
 import org.springframework.data.geo.Circle;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Point;
+
 import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.GeoOperations;
 import org.springframework.data.redis.core.RedisOperations;
 
+import fr.vocaltech.spring.redis.models.Position;
+import fr.vocaltech.spring.redis.repositories.PositionRepository;
+
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class RedisApplicationTests {
+class RedisApplicationTests {
 	@Autowired
 	private PositionRepository positionRepository;
 
@@ -38,10 +39,10 @@ public class RedisApplicationTests {
 		geoOperations = operations.opsForGeo();
 	}
 
-	@Disabled
 	@Test
+	@Tag("persistence")
 	@Order(1)
-	public void whenSavingPosition_thenAvailableOnRetrieval() {
+	void whenSavingPosition_thenAvailableOnRetrieval() {
 		Position position = new Position(45.5, 1.5, Instant.now().toEpochMilli(), "track_id", "userId");
 
 		Position savedPos = positionRepository.save(position);
@@ -62,8 +63,9 @@ public class RedisApplicationTests {
 	}
 
 	@Test
+	@Tag("geo")
 	@Order(2)
-	public void testGeoAdd() {
+	void testGeoAdd() {
 		geoOperations.add("gym31", new Point(1.481123, 43.538924), "Basic Fit:31520:Ramonville");
 		geoOperations.add("gym31", new Point(1.495027, 43.524487), "Movida:31320:Castanet-Tolosan");
 
@@ -73,7 +75,7 @@ public class RedisApplicationTests {
 
 	@Test
 	@Order(3)
-	public void testGeoDist() {
+	void testGeoDist() {
 		var distance = geoOperations.distance("gym31",
 				"Basic Fit:31520:Ramonville",
 				"Movida:31320:Castanet-Tolosan",
@@ -84,7 +86,7 @@ public class RedisApplicationTests {
 
 	@Test
 	@Order(4)
-	public void testGeoRadius() {
+	void testGeoRadius() {
 		var circle = new Circle(new Point(1.4874561145698026, 43.53105707122094),
 				new Distance(1.1, RedisGeoCommands.DistanceUnit.KILOMETERS));
 
@@ -98,7 +100,7 @@ public class RedisApplicationTests {
 
 	@Test
 	@Order(5)
-	public void testGeoRadiusByMember_whenDistanceLower_2kms_thenReturn_NoMembers() {
+	void testGeoRadiusByMember_whenDistanceLower_2kms_thenReturn_NoMembers() {
 		var geoResults = geoOperations.radius("gym31",
 				"Basic Fit:31520:Ramonville",
 				new Distance(1.9, RedisGeoCommands.DistanceUnit.KILOMETERS));
@@ -108,7 +110,7 @@ public class RedisApplicationTests {
 
 	@Test
 	@Order(6)
-	public void testGeoRadiusByMember_whenDistanceEquals_2kms_thenReturn_1Member() {
+	void testGeoRadiusByMember_whenDistanceEquals_2kms_thenReturn_1Member() {
 		var geoResults = geoOperations.radius("gym31",
 				"Basic Fit:31520:Ramonville",
 				new Distance(2.0, RedisGeoCommands.DistanceUnit.KILOMETERS));
