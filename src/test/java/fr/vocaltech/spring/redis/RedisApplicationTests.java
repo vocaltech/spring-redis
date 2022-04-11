@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.data.geo.Circle;
@@ -79,23 +80,45 @@ class RedisApplicationTests {
 		positionById.ifPresent(p -> {
 			assertThat(p.getLatitude()).isEqualTo(49.5);
 		});
-
 	}
 
 	@Test
 	@Tag("geo")
 	@Order(1)
-	void testGeoAdd() {
-		geoOperations.add("gym31", new Point(1.481123, 43.538924), "Basic Fit:31520:Ramonville");
-		geoOperations.add("gym31", new Point(1.495027, 43.524487), "Movida:31320:Castanet-Tolosan");
+	void whenAddPosition_thenAvailableOnRetrieval() {
+		var latitude = 43.53783457706302;
+		var longitude = 1.4808604434856267;
 
-		var positions = geoOperations.position("gym31", "Basic Fit:31520:Ramonville", "Movida:31320:Castanet-Tolosan");
-		assertThat(positions.size()).isEqualTo(2);
+		geoOperations.add("gym31", new Point(longitude, latitude ), "Basic Fit:31520:Ramonville");
+		var positions = geoOperations.position("gym31", "Basic Fit:31520:Ramonville");
+
+		var lg1 = Double.parseDouble(String.format(Locale.US, "%.5f", longitude));
+		var lg2 = Double.parseDouble(String.format(Locale.US, "%.5f", positions.get(0).getX()));
+		assertThat(lg1).isEqualTo(lg2);
+
+		var lt1 = Double.parseDouble(String.format(Locale.US, "%.5f", latitude));
+		var lt2 = Double.parseDouble(String.format(Locale.US, "%.5f", positions.get(0).getY()));
+		assertThat(lt1).isEqualTo(lt2);
 	}
 
 	@Test
 	@Tag("geo")
 	@Order(2)
+	void testGeoAdd() {
+		geoOperations.add("gym31", new Point(1.4808604434856267, 43.53783457706302), "Basic Fit:31520:Ramonville");
+		geoOperations.add("gym31", new Point(1.4950804686212287, 43.52346359972895), "Movida:31320:Castanet-Tolosan");
+
+		var positions = geoOperations.position("gym31", "Basic Fit:31520:Ramonville", "Movida:31320:Castanet-Tolosan");
+		assertThat(positions.size()).isEqualTo(2);
+
+		positions.forEach(p -> {
+			System.out.println("lg: " + p.getX() + " - lt: " + p.getY());
+		});
+	}
+
+	@Test
+	@Tag("geo")
+	@Order(3)
 	void testGeoDist() {
 		var distance = geoOperations.distance("gym31",
 				"Basic Fit:31520:Ramonville",
@@ -107,7 +130,7 @@ class RedisApplicationTests {
 
 	@Test
 	@Tag("geo")
-	@Order(3)
+	@Order(4)
 	void testGeoRadius() {
 		var circle = new Circle(new Point(1.4874561145698026, 43.53105707122094),
 				new Distance(1.1, RedisGeoCommands.DistanceUnit.KILOMETERS));
@@ -122,7 +145,7 @@ class RedisApplicationTests {
 
 	@Test
 	@Tag("geo")
-	@Order(4)
+	@Order(5)
 	void testGeoRadiusByMember_whenDistanceLower_2kms_thenReturn_NoMembers() {
 		var geoResults = geoOperations.radius("gym31",
 				"Basic Fit:31520:Ramonville",
@@ -133,7 +156,7 @@ class RedisApplicationTests {
 
 	@Test
 	@Tag("geo")
-	@Order(5)
+	@Order(6)
 	void testGeoRadiusByMember_whenDistanceEquals_2kms_thenReturn_1Member() {
 		var geoResults = geoOperations.radius("gym31",
 				"Basic Fit:31520:Ramonville",
