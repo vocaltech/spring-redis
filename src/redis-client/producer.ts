@@ -14,5 +14,8 @@ producer.produce(message, err => {
     } else {
         const msgId = message.getId()
         console.log(`successfully produced msg - id: ${msgId}`)
+
+        const body = JSON.stringify(message.getBody())
+        console.log(`body: ${body}`)
     }
 })
