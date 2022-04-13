@@ -6,8 +6,7 @@
   "scripts": {
     "build": "tsc --project ./",
     "serve:dev": "nodemon .\\src\\server.ts",
-    "serve:ts": "ts-node .\\src\\server.ts",
-    "serve:prod": "node .\\dist\\src\\server.js"
+    "producer:ts": "ts-node .\\src\\producer.ts"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +18,7 @@
     "express": "^4.17.1",
     "mongoose": "^6.0.8",
     "morgan": "^1.10.0",
+    "redis-smq": "^6.4.1",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0"
   },
