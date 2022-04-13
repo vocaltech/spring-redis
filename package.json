@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc --project ./",
     "serve:dev": "nodemon .\\src\\server.ts",
-    "producer": "ts-node .\\src\\redis-client\\producer.ts"
+    "producer": "ts-node .\\src\\redis-client\\producer.ts",
+    "consumer": "ts-node .\\src\\redis-client\\consumer.ts"
   },
   "author": "",
   "license": "ISC",
