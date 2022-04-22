@@ -24,9 +24,9 @@ public class RedisController {
 
     private GeoOperations<String, String> geoOperations;
 
-    @GetMapping("/")
-    public String index() {
-        return "{ \"message\": \"RedisController\" }";
+    @GetMapping("")
+    public ResponseEntity<Iterable<Position>> findAllPositions() {
+        return new ResponseEntity<>(positionRepository.findAll(), HttpStatus.FOUND);
     }
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
