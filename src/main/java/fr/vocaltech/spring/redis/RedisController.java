@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/positions")
 public class RedisController {
@@ -31,13 +33,22 @@ public class RedisController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Position> createPosition(@RequestBody Position position) {
-        geoOperations = operations.opsForGeo();
-
         Position savedPos = positionRepository.save(position);
         String id = savedPos.getId();
 
         System.out.println("saved id: " + id);
 
         return new ResponseEntity<>(savedPos, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<Position> findPositionById(@PathVariable("userId") String userId) {
+        Optional<Position> foundPosition = positionRepository.findById(userId);
+
+        if (foundPosition.isPresent()) {
+            return new ResponseEntity<>(foundPosition.get(), HttpStatus.FOUND);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
