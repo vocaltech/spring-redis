@@ -39,13 +39,11 @@ public class RedisController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Position> createPosition(@RequestBody Position position) {
-        Position savedPos = positionRepository.save(position);
-        String id = savedPos.getId();
+    public ResponseEntity<PositionDto> createPosition(@RequestBody PositionDto positionDto) {
+        Position newPosition = convertToPositionModel(positionDto);
+        Position savedPos = positionRepository.save(newPosition);
 
-        System.out.println("saved id: " + id);
-
-        return new ResponseEntity<>(savedPos, HttpStatus.CREATED);
+        return new ResponseEntity<>(convertToPositionDto(savedPos), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{userId}")
