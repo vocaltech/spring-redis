@@ -14,7 +14,7 @@ public class PositionDtoTests {
     private final ModelMapper modelMapper = new ModelMapper();
 
     @Test
-    void whenConvertPositionDtoToPositionModel_thenCorrect() {
+    void whenConvertPositionDtoToModel_thenCorrect() {
         PositionDto positionDto = new PositionDto();
 
         long now = Instant.now().toEpochMilli();
@@ -34,5 +34,17 @@ public class PositionDtoTests {
         assertThat(positionDto.getTime()).isEqualTo(position.getTime());
         assertThat(positionDto.getTrackId()).isEqualTo(position.getTrackId());
         assertThat(positionDto.getUserId()).isEqualTo(position.getUserId());
+    }
+
+    @Test
+    void whenConvertPositionModelToDto_thenCorrect() {
+        Position position = new Position(43.2, 1.7, Instant.now().toEpochMilli(), "track_2", "user_2");
+        position.setId("position_id");
+
+        PositionDto positionDto = modelMapper.map(position, PositionDto.class);
+
+        assertThat(position.getId()).isEqualTo(positionDto.getId());
+        assertThat(position.getLatitude()).isEqualTo(positionDto.getLatitude());
+        assertThat(position.getLongitude()).isEqualTo(positionDto.getLongitude());
     }
 }
