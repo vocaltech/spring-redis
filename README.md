@@ -1,7 +1,9 @@
-## Spring with Redis backend
-### CRUD Operations
+# Fullstack Redis project (Spring Java / Typescript)
+### Backend: SpringBoot Redis 
+#### CRUD Operations
 > Create new position
 
 > Delete position by id
 
-## Redis client using redis-smq package
+### Frontend: Redis client written in Typescript
+> using redis-smq package
