@@ -1,5 +1,12 @@
 package fr.vocaltech.spring.redis.dto;
 
-public class PositionDto {
+import lombok.Data;
 
+@Data
+public class PositionDto {
+    private double latitude;
+    private double longitude;
+    private long time;
+    private String trackId;
+    private String userId;
 }
