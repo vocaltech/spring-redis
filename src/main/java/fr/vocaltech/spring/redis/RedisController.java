@@ -1,5 +1,7 @@
 package fr.vocaltech.spring.redis;
 
+import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +14,7 @@ import org.springframework.data.redis.core.RedisOperations;
 import java.util.Optional;
 
 import fr.vocaltech.spring.redis.models.Position;
+import fr.vocaltech.spring.redis.dto.PositionDto;
 import fr.vocaltech.spring.redis.repositories.PositionRepository;
 
 @RestController
@@ -22,6 +25,9 @@ public class RedisController {
 
     @Autowired
     private RedisOperations<String, String> operations;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     private GeoOperations<String, String> geoOperations;
 
@@ -60,10 +66,29 @@ public class RedisController {
         return new ResponseEntity<>(HttpStatus.FOUND);
     }
 
-    @PatchMapping(value = "/{userId]")
-    public ResponseEntity<Position> updatePositionById(
-            @PathVariable("userId") String userId,
-            @RequestBody Position updatedPosition) {
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PutMapping(value = "/{positionId}")
+    public ResponseEntity<PositionDto> updatePositionById(
+            @PathVariable("positionId") String positionId,
+            @RequestBody PositionDto positionDto) {
+
+        positionDto.setId(positionId);
+
+        Position newPosition = convertToPositionModel(positionDto);
+
+        Optional<Position> foundPosition = positionRepository.findById(positionId);
+        return foundPosition
+                .map(pos -> {
+                    Position savedPosition = positionRepository.save(newPosition);
+                    return new ResponseEntity<>(convertToPositionDto(savedPosition), HttpStatus.CREATED);
+                })
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    private PositionDto convertToPositionDto(Position position) {
+        return modelMapper.map(position, PositionDto.class);
+    }
+
+    private Position convertToPositionModel(PositionDto positionDto) {
+        return modelMapper.map(positionDto, Position.class);
     }
 }
