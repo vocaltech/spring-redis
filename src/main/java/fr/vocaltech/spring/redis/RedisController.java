@@ -1,17 +1,18 @@
 package fr.vocaltech.spring.redis;
 
-import fr.vocaltech.spring.redis.models.Position;
-import fr.vocaltech.spring.redis.repositories.PositionRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.GeoOperations;
-import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.redis.core.GeoOperations;
+import org.springframework.data.redis.core.RedisOperations;
+
 import java.util.Optional;
+
+import fr.vocaltech.spring.redis.models.Position;
+import fr.vocaltech.spring.redis.repositories.PositionRepository;
 
 @RestController
 @RequestMapping("/positions")
@@ -57,5 +58,12 @@ public class RedisController {
         positionRepository.deleteById(userId);
 
         return new ResponseEntity<>(HttpStatus.FOUND);
+    }
+
+    @PatchMapping(value = "/{userId]")
+    public ResponseEntity<Position> updatePositionById(
+            @PathVariable("userId") String userId,
+            @RequestBody Position updatedPosition) {
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
