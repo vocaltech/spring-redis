@@ -9,8 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.Instant;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.data.geo.Circle;
 import org.springframework.data.geo.Distance;
@@ -62,6 +66,32 @@ class RedisApplicationTests {
 	@Test
 	@Tag("persistence")
 	@Order(2)
+	void whenSavingBulkPositions_thenAvailableOnRetrieval() {
+		List<Position> bulkPositions = new ArrayList<>();
+
+		Position position;
+
+		position = new Position(45.5, 1.5, Instant.now().toEpochMilli(), "track_1", "user_1");
+		bulkPositions.add(position);
+
+		position = new Position(42.1, 1.3, Instant.now().toEpochMilli(), "track_1", "user_1");
+		bulkPositions.add(position);
+
+		position = new Position(41.7, 1.2, Instant.now().toEpochMilli(), "track_1", "user_1");
+		bulkPositions.add(position);
+
+		assertThat(bulkPositions.size()).isEqualTo(3);
+
+		Iterable<Position> bulkSavedPositions = positionRepository.saveAll(bulkPositions);
+
+		List<Position> result = StreamSupport.stream(bulkSavedPositions.spliterator(), false)
+				.peek(pos -> System.out.println("savedPos: " + pos))
+				.collect(Collectors.toList());
+	}
+
+	@Test
+	@Tag("persistence")
+	@Order(3)
 	void whenUpdatingPosition_thenAvailableOnRetrieval() {
 		Position position = new Position(48.2, 1.3, Instant.now().toEpochMilli(), "track_2", "user_2");
 		Position savedPos = positionRepository.save(position);
