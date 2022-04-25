@@ -2,8 +2,6 @@
 ### Backend: SpringBoot Redis 
 #### HTTP CRUD Operations
 
-> /positions/{id} -  (PUT) - body: JSON
-
 | URI              | HTTP <br/>method | Post <br/>body | Result                 |
 |------------------|------------------|----------------|------------------------|
 | /positions       | GET              | empty          | Find all positions     |
