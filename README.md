@@ -1,15 +1,16 @@
 # Fullstack Redis project (Spring Java / Typescript)
 ### Backend: SpringBoot Redis 
 #### HTTP CRUD Operations
-> /positions - Find all positions (GET) 
 
-> /positions/{id} - Find position by id (GET)
+> /positions/{id} -  (PUT) - body: JSON
 
-> /positions - Create new position (POST) - body: JSON
-
-> /positions/{id} - Delete position by id (DELETE)
-
-> /positions/{id} - Update position by id (PUT) - body: JSON
+| URI              | HTTP <br/>method | Post <br/>body | Result                 |
+|------------------|------------------|----------------|------------------------|
+| /positions       | GET              | empty          | Find all positions     |
+| /positions/{id}  | GET              | empty          | Find position by id    |
+| /positions       | POST             | JSON           | Create new position    |
+| /positions/{id}  | DELETE           | empty          | Delete position by id  |
+| /positions/{id}  | PUT              | JSON           | Update position by id  |
 
 ### Frontend: Redis client written in Typescript
 > using redis-smq package
