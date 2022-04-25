@@ -46,9 +46,9 @@ public class RedisController {
         return new ResponseEntity<>(convertToPositionDto(savedPos), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{userId}")
-    public ResponseEntity<Position> findPositionById(@PathVariable("userId") String userId) {
-        Optional<Position> foundPosition = positionRepository.findById(userId);
+    @GetMapping(value = "/{positionId}")
+    public ResponseEntity<Position> findPositionById(@PathVariable("positionId") String positionId) {
+        Optional<Position> foundPosition = positionRepository.findById(positionId);
 
         if (foundPosition.isPresent()) {
             return new ResponseEntity<>(foundPosition.get(), HttpStatus.FOUND);
@@ -57,9 +57,9 @@ public class RedisController {
         }
     }
 
-    @DeleteMapping(value = "/{userId}" )
-    public ResponseEntity<String> deletePositionById(@PathVariable("userId") String userId) {
-        positionRepository.deleteById(userId);
+    @DeleteMapping(value = "/{positionId}" )
+    public ResponseEntity<String> deletePositionById(@PathVariable("positionId") String positionId) {
+        positionRepository.deleteById(positionId);
 
         return new ResponseEntity<>(HttpStatus.FOUND);
     }
