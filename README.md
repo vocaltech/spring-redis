@@ -1,6 +1,6 @@
 # Fullstack Redis project (Spring Java / Typescript)
 ### Backend: SpringBoot Redis 
-#### HTTP CRUD Operations
+#### REST API
 
 | URI              | HTTP <br/>method | Post <br/>body | Result                 |
 |------------------|------------------|----------------|------------------------|
