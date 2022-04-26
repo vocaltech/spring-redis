@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.redis.core.GeoOperations;
 import org.springframework.data.redis.core.RedisOperations;
 
+import java.util.List;
 import java.util.Optional;
 
 import fr.vocaltech.spring.redis.models.Position;
@@ -44,6 +45,13 @@ public class RedisController {
         Position savedPos = positionRepository.save(newPosition);
 
         return new ResponseEntity<>(convertToPositionDto(savedPos), HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/bulk")
+    public ResponseEntity<Iterable<Position>> postBulkPositions(@RequestBody List<Position> bulkPositions) {
+        Iterable<Position> bulkSavedPositions = positionRepository.saveAll(bulkPositions);
+
+        return new ResponseEntity<>(bulkSavedPositions, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{positionId}")
