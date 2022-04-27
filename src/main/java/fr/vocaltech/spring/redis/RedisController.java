@@ -48,7 +48,7 @@ public class RedisController {
     }
 
     @PostMapping(value = "/bulk")
-    public ResponseEntity<Iterable<Position>> postBulkPositions(@RequestBody List<Position> bulkPositions) {
+    public ResponseEntity<Iterable<Position>> createBulkPositions(@RequestBody List<Position> bulkPositions) {
         Iterable<Position> bulkSavedPositions = positionRepository.saveAll(bulkPositions);
 
         return new ResponseEntity<>(bulkSavedPositions, HttpStatus.CREATED);
