@@ -4,10 +4,9 @@
   "description": "",
   "main": "redis-client.js",
   "scripts": {
-    "build": "tsc --project ./",
-    "serve:dev": "nodemon .\\src\\server.ts",
-    "producer": "ts-node .\\src\\redis-client\\producer.ts",
-    "consumer": "ts-node .\\src\\redis-client\\consumer.ts"
+    "producer": "ts-node .\\src\\node-redis\\producer.ts",
+    "consumer": "ts-node .\\src\\node-redis\\consumer.ts",
+    "basic": "ts-node .\\src\\node-redis\\basic.ts"
   },
   "author": "",
   "license": "ISC",
@@ -19,7 +18,7 @@
     "express": "^4.17.1",
     "mongoose": "^6.0.8",
     "morgan": "^1.10.0",
-    "redis-smq": "^6.4.1",
+    "redis": "^4.0.6",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0"
   },
