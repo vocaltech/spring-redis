@@ -12,4 +12,4 @@
 | /positions/bulk  | POST             | JSON Array     | Create bulk positions                |
 
 ### Frontend: Redis client written in Typescript
-> using redis-smq package
+> npm i redis
