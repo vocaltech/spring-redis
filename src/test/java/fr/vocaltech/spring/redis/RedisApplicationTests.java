@@ -92,6 +92,36 @@ class RedisApplicationTests {
 	@Test
 	@Tag("persistence")
 	@Order(3)
+	void givenBulkPositions_whenDeleteAll_thenNotAvailableOnRetrieval() {
+		List<Position> bulkPositions = new ArrayList<>();
+
+		Position position;
+
+		position = new Position(45.5, 1.5, Instant.now().toEpochMilli(), "track_1", "user_1");
+		bulkPositions.add(position);
+
+		position = new Position(42.1, 1.3, Instant.now().toEpochMilli(), "track_1", "user_1");
+		bulkPositions.add(position);
+
+		position = new Position(41.7, 1.2, Instant.now().toEpochMilli(), "track_1", "user_1");
+		bulkPositions.add(position);
+
+		Iterable<Position> savedBulkPositions = positionRepository.saveAll(bulkPositions);
+		long reposCurCount = positionRepository.count();
+
+		long savedBulkPositionsSize = StreamSupport.stream(savedBulkPositions.spliterator(), false)
+				.count();
+
+		assertThat(savedBulkPositionsSize).isEqualTo(3);
+
+		positionRepository.deleteAll(savedBulkPositions);
+
+		assertThat(positionRepository.count()).isEqualTo(reposCurCount - 3);
+	}
+
+	@Test
+	@Tag("persistence")
+	@Order(4)
 	void whenUpdatingPosition_thenAvailableOnRetrieval() {
 		Position position = new Position(48.2, 1.3, Instant.now().toEpochMilli(), "track_2", "user_2");
 		Position savedPos = positionRepository.save(position);
