@@ -6,6 +6,7 @@
 |----------------------------|------------------|----------------|-----------------------------------------------------|
 | /positions                 | GET              | empty          | Find all positions                                  |
 | /positions/{id}            | GET              | empty          | Find position by <code>{id}</code>                  |
+| /positions/userid/{userId} | GET              | empty          | Find all positions owned by <code>{userId}</code>   |
 | /positions                 | POST             | JSON           | Create new position                                 |
 | /positions/{id}            | DELETE           | empty          | Delete position by <code>{id}</code>                |
 | /positions/userid/{userId} | DELETE           | empty          | Delete all positions owned by <code>{userId}</code> |
