@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 import java.io.Serializable;
 
@@ -20,6 +21,7 @@ public class Position implements Serializable {
     private double longitude;
     private long time;
     private String trackId;
+    @Indexed
     private String userId;
 
     public Position(double latitude, double longitude, long time, String trackId, String userId) {
