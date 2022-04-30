@@ -69,6 +69,11 @@ public class RedisController {
         }
     }
 
+    @GetMapping(value = "userid/{userId}")
+    public ResponseEntity<List<Position>> findPositionsByUserId(@PathVariable("userId") String userId) {
+        return new ResponseEntity<>(positionRepository.findByUserId(userId), HttpStatus.FOUND);
+    }
+
     @DeleteMapping(value = "/{positionId}" )
     public ResponseEntity<String> deletePositionById(@PathVariable("positionId") String positionId) {
         positionRepository.deleteById(positionId);
