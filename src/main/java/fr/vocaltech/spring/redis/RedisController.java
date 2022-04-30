@@ -1,5 +1,6 @@
 package fr.vocaltech.spring.redis;
 
+import fr.vocaltech.spring.redis.repositories.PositionDao;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ import fr.vocaltech.spring.redis.repositories.PositionRepository;
 public class RedisController {
     @Autowired
     private PositionRepository positionRepository;
+
+    @Autowired
+    private PositionDao positionDao;
 
     @Autowired
     private RedisOperations<String, String> operations;
@@ -72,10 +76,16 @@ public class RedisController {
         return new ResponseEntity<>(HttpStatus.FOUND);
     }
 
-    @DeleteMapping(value = "")
+    @DeleteMapping(value = "/")
     public ResponseEntity<String> deleteAllPositions() {
         positionRepository.deleteAll();
 
+        return new ResponseEntity<>(HttpStatus.FOUND);
+    }
+
+    @DeleteMapping(value = "userid/{userId}")
+    public ResponseEntity<String> deletePositionsByUserId(@PathVariable("userId") String userId) {
+        positionDao.deleteAllByUserId(userId);
         return new ResponseEntity<>(HttpStatus.FOUND);
     }
 
