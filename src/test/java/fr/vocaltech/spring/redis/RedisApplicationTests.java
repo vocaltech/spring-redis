@@ -1,5 +1,6 @@
 package fr.vocaltech.spring.redis;
 
+import fr.vocaltech.spring.redis.repositories.PositionDao;
 import lombok.var;
 import org.junit.jupiter.api.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,6 +33,9 @@ import fr.vocaltech.spring.redis.repositories.PositionRepository;
 class RedisApplicationTests {
 	@Autowired
 	private PositionRepository positionRepository;
+
+	@Autowired
+	private PositionDao positionDao;
 
 	@Autowired
 	private RedisOperations<String, String> operations;
@@ -122,6 +126,29 @@ class RedisApplicationTests {
 	@Test
 	@Tag("persistence")
 	@Order(4)
+	void givenUserId_whenDeleteAllByUserId_thenEmptyOnRetrieval() {
+		List<Position> bulkPositions = new ArrayList<>();
+
+		Position position;
+
+		position = new Position(45.5, 1.5, Instant.now().toEpochMilli(), "track_1", "user_1");
+		bulkPositions.add(position);
+
+		position = new Position(42.1, 1.3, Instant.now().toEpochMilli(), "track_1", "user_2");
+		bulkPositions.add(position);
+
+		position = new Position(41.7, 1.2, Instant.now().toEpochMilli(), "track_1", "user_1");
+		bulkPositions.add(position);
+
+		Iterable<Position> savedBulkPositions = positionRepository.saveAll(bulkPositions);
+
+		positionDao.deleteAllByUserId("user_1");
+		assertThat(positionRepository.findByUserId("user_1").size()).isEqualTo(0);
+	}
+
+	@Test
+	@Tag("persistence")
+	@Order(5)
 	void whenUpdatingPosition_thenAvailableOnRetrieval() {
 		Position position = new Position(48.2, 1.3, Instant.now().toEpochMilli(), "track_2", "user_2");
 		Position savedPos = positionRepository.save(position);
