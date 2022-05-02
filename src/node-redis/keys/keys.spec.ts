@@ -18,4 +18,12 @@ describe('test redis keys ', () => {
 
         expect(keys.length).toBe(2)
     })
+
+    it(' should get some values', async () => {
+        let v = await redis.get("key1")
+        expect(v).toBe("val1")
+
+        v = await redis.get("key2")
+        expect(v).toBe("val2")
+    })
 })
