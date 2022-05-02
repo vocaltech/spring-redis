@@ -4,9 +4,8 @@
   "description": "",
   "main": "redis-client.js",
   "scripts": {
-    "producer": "ts-node .\\src\\node-redis\\producer.ts",
-    "consumer": "ts-node .\\src\\node-redis\\consumer.ts",
-    "basic": "ts-node .\\src\\node-redis\\basic.ts"
+    "producer": "ts-node .\\src\\node-redis\\pubsub\\producer.ts",
+    "consumer": "ts-node .\\src\\node-redis\\pubsub\\consumer.ts"
   },
   "author": "",
   "license": "ISC",
