@@ -1,8 +1,8 @@
-import { client } from "./client";
+import { redis } from "././config/redis";
 
 const consumer = async () => {
 
-    const subscriber = client.duplicate()
+    const subscriber = redis.duplicate()
     await subscriber.connect()
 
     await subscriber.subscribe('channel-1', (msg) => {

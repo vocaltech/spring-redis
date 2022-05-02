@@ -1,9 +1,9 @@
-import { client } from './client'
+import { redis } from './config/redis'
 
 const producer = async () => {
-    await client.connect()
+    await redis.connect()
 
-    await client.publish('channel-1', "From producer: hello !")
+    await redis.publish('channel-1', "From producer: hello !")
 }
 
 producer()
