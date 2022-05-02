@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.redis.core.GeoOperations;
 import org.springframework.data.redis.core.RedisOperations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import fr.vocaltech.spring.redis.models.Position;
 import fr.vocaltech.spring.redis.dto.PositionDto;
@@ -52,10 +55,21 @@ public class RedisController {
     }
 
     @PostMapping(value = "/bulk")
-    public ResponseEntity<Iterable<Position>> createBulkPositions(@RequestBody List<Position> bulkPositions) {
+    public ResponseEntity<Iterable<PositionDto>> createBulkPositions(@RequestBody List<PositionDto> bulkPositionsDto) {
+        List<Position> bulkPositions = new ArrayList<>();
+
+         bulkPositions = bulkPositionsDto
+                .stream()
+                .map(this::convertToPositionModel)
+                .collect(Collectors.toList());
+
         Iterable<Position> bulkSavedPositions = positionRepository.saveAll(bulkPositions);
 
-        return new ResponseEntity<>(bulkSavedPositions, HttpStatus.CREATED);
+        List<PositionDto> bulkSavedPositionsDto = StreamSupport.stream(bulkSavedPositions.spliterator(), false)
+                .map(this::convertToPositionDto)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(bulkSavedPositionsDto, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{positionId}")
