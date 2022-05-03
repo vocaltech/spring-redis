@@ -26,4 +26,12 @@ describe('test redis keys ', () => {
         v = await redis.get("key2")
         expect(v).toBe("val2")
     })
+
+    it(' should delete some value', async () => {
+        let delResult = await redis.del("key1");
+        expect(delResult).toBe(1)
+
+        let v = await redis.get("key1")
+        expect(v).toBeNull()
+    })
 })
