@@ -34,4 +34,15 @@ describe('test redis keys ', () => {
         let v = await redis.get("key1")
         expect(v).toBeNull()
     })
+
+    it(' should return a JSON object', async () => {
+        redis.set("user:1000", "{ \"name\": \"joe\", \"position\": [1.0, 45.8] }")
+
+        let res = await redis.get("user:1000") as string
+        let json = JSON.parse(res)
+
+        expect(json.name).toBe("joe")
+        expect(json.position[0]).toBe(1.0)
+        expect(json.position[1]).toBe(45.8)
+    })
 })
