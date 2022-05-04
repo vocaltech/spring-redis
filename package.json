@@ -6,7 +6,8 @@
   "scripts": {
     "producer": "ts-node .\\src\\node-redis\\pubsub\\producer.ts",
     "consumer": "ts-node .\\src\\node-redis\\pubsub\\consumer.ts",
-    "test-keys": "jest --runInBand ./src/node-redis/keys/keys.spec.ts"
+    "test-keys": "jest --runInBand ./src/node-redis/keys/keys.spec.ts",
+    "test-transactions": "jest --runInBand ./src/node-redis/transactions/transactions.spec.ts"
   },
   "author": "",
   "license": "ISC",
