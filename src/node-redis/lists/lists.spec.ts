@@ -14,13 +14,25 @@ describe('lists tests', () => {
         it(' should enqueue some datas', async () => { 
             const queueId: string = 'user:1000' 
 
-            redis.lPush(queueId, "a")
-            redis.lPush(queueId, "b")
-            redis.lPush(queueId, "c")
+            await redis.lPush(queueId, "a")
+            await redis.lPush(queueId, "b")
+            await redis.lPush(queueId, "c")
 
             const queueContent = await redis.lRange(queueId, 0, -1)
 
-            console.log(queueContent)
+            expect(queueContent).toEqual(['c', 'b', 'a'])
+        })
+
+        it(' should dequeue some datas', async () => { 
+            const queueId: string = 'user:1000' 
+
+            while (await redis.lLen(queueId) > 0) {
+                let popElt = await redis.rPop(queueId)
+                console.log(`popElt: ${popElt}`)
+
+                const queueContent = await redis.lRange(queueId, 0, -1)
+                console.log(queueContent)
+            }
         })
     })
 })
