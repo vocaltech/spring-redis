@@ -25,13 +25,28 @@ describe('lists tests', () => {
 
         it(' should dequeue some datas', async () => { 
             const queueId: string = 'user:1000' 
+            let count = 0;
 
             while (await redis.lLen(queueId) > 0) {
                 let popElt = await redis.rPop(queueId)
-                console.log(`popElt: ${popElt}`)
 
                 const queueContent = await redis.lRange(queueId, 0, -1)
-                console.log(queueContent)
+
+                switch (count) {
+                    case 0:
+                        expect(queueContent).toEqual(['c', 'b'])
+                        break;
+
+                    case 1:
+                        expect(queueContent).toEqual(['c'])
+                        break;
+
+                    case 2:
+                        expect(queueContent).toEqual([])
+                        break;
+                }
+
+                count++
             }
         })
     })
