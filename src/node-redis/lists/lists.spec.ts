@@ -53,14 +53,14 @@ describe('lists tests', () => {
     })
 
     describe('queue simulation with Position', () => {
-        it(' should enqueue some positions', async() => {
-            const userId = "5f2697cc69b07f2ff81fc279"
-            const trackId = "61ae78e46beff9e8495a8d45"
+        const userId = "5f2697cc69b07f2ff81fc279"
+        const trackId = "61ae78e46beff9e8495a8d45"
 
+        it(' should enqueue some positions', async() => {
             let pos: Position = {
                 user_id: new Object(userId),
                 track_id: new Object(trackId),
-                coordinates: [1.5189067, 47.2970283],
+                coordinates: [1.52, 47.2],
                 timestamp: new Date()
             }
 
@@ -78,6 +78,13 @@ describe('lists tests', () => {
             const queueContent = await redis.lRange(userId, 0, -1)
             console.log(queueContent)
 
+        })
+
+        it(' should dequeue one Position', async () => { 
+            const popElt = await redis.rPop(userId) as string
+            const dequeuePos: Position = JSON.parse(popElt)
+
+            expect(dequeuePos.coordinates).toEqual([1.52, 47.2])
         })
     })
 })
