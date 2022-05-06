@@ -1,4 +1,5 @@
 import { redis } from "../config/redis"
+import { Position } from "../models/position.interface"
 
 describe('lists tests', () => { 
     beforeAll(async () => {
@@ -48,6 +49,35 @@ describe('lists tests', () => {
 
                 count++
             }
+        })
+    })
+
+    describe('queue simulation with Position', () => {
+        it(' should enqueue some positions', async() => {
+            const userId = "5f2697cc69b07f2ff81fc279"
+            const trackId = "61ae78e46beff9e8495a8d45"
+
+            let pos: Position = {
+                user_id: new Object(userId),
+                track_id: new Object(trackId),
+                coordinates: [1.5189067, 47.2970283],
+                timestamp: new Date()
+            }
+
+            await redis.lPush(userId, JSON.stringify(pos))
+
+            pos = {
+                user_id: new Object(userId),
+                track_id: new Object(trackId),
+                coordinates: [1.53, 47.3],
+                timestamp: new Date()
+            }
+
+            await redis.lPush(userId, JSON.stringify(pos))
+
+            const queueContent = await redis.lRange(userId, 0, -1)
+            console.log(queueContent)
+
         })
     })
 })
