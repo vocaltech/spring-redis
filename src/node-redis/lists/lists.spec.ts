@@ -76,8 +76,26 @@ describe('lists tests', () => {
             await redis.lPush(userId, JSON.stringify(pos))
 
             const queueContent = await redis.lRange(userId, 0, -1)
-            console.log(queueContent)
+            let count: number = 0
 
+            queueContent.map(posStr => {
+                const pos: Position = JSON.parse(posStr)
+
+                switch (count) {
+                    case 0:
+                        expect(pos.coordinates).toEqual([1.53, 47.3])
+                        break;
+
+                    case 1:
+                        expect(pos.coordinates).toEqual([1.52, 47.2])
+                        break;
+            
+                    default:
+                        break;
+                }
+
+                count++
+            })
         })
 
         it(' should dequeue one Position', async () => { 
