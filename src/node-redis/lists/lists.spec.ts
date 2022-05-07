@@ -129,5 +129,11 @@ describe('lists tests', () => {
 
             expect(await redis.lLen('stack')).toBe(3)
         })
+
+        it(' shoud return the content of the stack after pop 1 value', async () => {
+            const stackContent = await redis.lRange('stack', 0, -1)
+            expect(stackContent).toEqual(['3', '2', '1'])
+
+        })
     })
 })
