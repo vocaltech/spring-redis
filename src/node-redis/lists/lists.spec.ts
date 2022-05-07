@@ -107,6 +107,10 @@ describe('lists tests', () => {
     })
 
     describe('stack simulation', () => { 
-
+        it(' should push some datas', async () => {
+            await redis.lPush('stack', '1')
+            await redis.lPush('stack', '2')
+            await redis.lPush('stack', ['3', '4'])
+        })
     })
 })
