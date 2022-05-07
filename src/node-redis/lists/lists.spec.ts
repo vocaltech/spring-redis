@@ -111,6 +111,16 @@ describe('lists tests', () => {
             await redis.lPush('stack', '1')
             await redis.lPush('stack', '2')
             await redis.lPush('stack', ['3', '4'])
+
+            const stackSize = await redis.lLen('stack')
+
+            expect(stackSize).toBe(4)
+        })
+
+        it(' shoud return the content of the stack', async () => {
+            const stackContent = await redis.lRange('stack', 0, -1)
+            expect(stackContent).toEqual(['4', '3', '2', '1'])
+
         })
     })
 })
