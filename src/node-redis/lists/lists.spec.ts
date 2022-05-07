@@ -105,4 +105,8 @@ describe('lists tests', () => {
             expect(dequeuePos.coordinates).toEqual([1.52, 47.2])
         })
     })
+
+    describe('stack simulation', () => { 
+
+    })
 })
