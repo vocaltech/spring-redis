@@ -122,5 +122,12 @@ describe('lists tests', () => {
             expect(stackContent).toEqual(['4', '3', '2', '1'])
 
         })
+
+        it(' should pop 1 value from the stack', async () => {
+            const popVal = await redis.lPop('stack')
+            expect(popVal).toBe('4')
+
+            expect(await redis.lLen('stack')).toBe(3)
+        })
     })
 })
