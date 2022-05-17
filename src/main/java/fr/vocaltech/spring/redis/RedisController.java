@@ -22,8 +22,9 @@ import fr.vocaltech.spring.redis.models.Position;
 import fr.vocaltech.spring.redis.dto.PositionDto;
 import fr.vocaltech.spring.redis.repositories.PositionRepository;
 
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
-@RequestMapping("/positions")
+@RequestMapping("/api")
 public class RedisController {
     @Autowired
     private PositionRepository positionRepository;
@@ -39,11 +40,12 @@ public class RedisController {
 
     private GeoOperations<String, String> geoOperations;
 
-    @GetMapping("")
+    @GetMapping(value = "/positions")
     public ResponseEntity<Iterable<Position>> findAllPositions() {
         return new ResponseEntity<>(positionRepository.findAll(), HttpStatus.FOUND);
     }
     @PostMapping(
+            path = "positions",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -54,7 +56,7 @@ public class RedisController {
         return new ResponseEntity<>(convertToPositionDto(savedPos), HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/bulk")
+    @PostMapping(value = "/positions/bulk")
     public ResponseEntity<Iterable<PositionDto>> createBulkPositions(@RequestBody List<PositionDto> bulkPositionsDto) {
         List<Position> bulkPositions = new ArrayList<>();
 
@@ -72,7 +74,7 @@ public class RedisController {
         return new ResponseEntity<>(bulkSavedPositionsDto, HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{positionId}")
+    @GetMapping(value = "/positions/{positionId}")
     public ResponseEntity<Position> findPositionById(@PathVariable("positionId") String positionId) {
         Optional<Position> foundPosition = positionRepository.findById(positionId);
 
@@ -83,32 +85,32 @@ public class RedisController {
         }
     }
 
-    @GetMapping(value = "userid/{userId}")
+    @GetMapping(value = "/positions/userid/{userId}")
     public ResponseEntity<List<Position>> findPositionsByUserId(@PathVariable("userId") String userId) {
         return new ResponseEntity<>(positionRepository.findByUserId(userId), HttpStatus.FOUND);
     }
 
-    @DeleteMapping(value = "/{positionId}" )
+    @DeleteMapping(value = "/positions/{positionId}" )
     public ResponseEntity<String> deletePositionById(@PathVariable("positionId") String positionId) {
         positionRepository.deleteById(positionId);
 
         return new ResponseEntity<>(HttpStatus.FOUND);
     }
 
-    @DeleteMapping(value = "/")
+    @DeleteMapping(value = "/positions")
     public ResponseEntity<String> deleteAllPositions() {
         positionRepository.deleteAll();
 
         return new ResponseEntity<>(HttpStatus.FOUND);
     }
 
-    @DeleteMapping(value = "userid/{userId}")
+    @DeleteMapping(value = "/positions/userid/{userId}")
     public ResponseEntity<String> deletePositionsByUserId(@PathVariable("userId") String userId) {
         positionDao.deleteAllByUserId(userId);
         return new ResponseEntity<>(HttpStatus.FOUND);
     }
 
-    @PutMapping(value = "/{positionId}")
+    @PutMapping(value = "/positions/{positionId}")
     public ResponseEntity<PositionDto> updatePositionById(
             @PathVariable("positionId") String positionId,
             @RequestBody PositionDto positionDto) {
