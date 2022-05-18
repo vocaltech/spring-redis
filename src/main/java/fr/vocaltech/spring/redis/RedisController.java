@@ -1,5 +1,7 @@
 package fr.vocaltech.spring.redis;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.vocaltech.spring.redis.repositories.PositionDao;
 import org.modelmapper.ModelMapper;
 
@@ -13,6 +15,7 @@ import org.springframework.data.redis.core.GeoOperations;
 import org.springframework.data.redis.core.RedisOperations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,8 +44,23 @@ public class RedisController {
     private GeoOperations<String, String> geoOperations;
 
     @GetMapping(value = "/positions")
-    public ResponseEntity<Iterable<Position>> findAllPositions() {
-        return new ResponseEntity<>(positionRepository.findAll(), HttpStatus.FOUND);
+    public ResponseEntity<List<Position>> findAllPositions() {
+        Iterable<Position> positionIterable = positionRepository.findAll();
+
+        List<Position> positions = new ArrayList<>();
+        positionRepository.findAll().forEach(positions::add);
+
+        return new ResponseEntity<>(positions, HttpStatus.FOUND);
+    }
+
+    @GetMapping()
+    public ResponseEntity<String> getDefault() throws JsonProcessingException {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("msg", "hello");
+
+        String jsonStr = new ObjectMapper().writeValueAsString(hashMap);
+
+        return new ResponseEntity<>(jsonStr, HttpStatus.OK);
     }
     @PostMapping(
             path = "positions",
