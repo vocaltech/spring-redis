@@ -43,14 +43,9 @@ public class RedisController {
 
     private GeoOperations<String, String> geoOperations;
 
-    @GetMapping(value = "/positions")
-    public ResponseEntity<List<Position>> findAllPositions() {
-        Iterable<Position> positionIterable = positionRepository.findAll();
-
-        List<Position> positions = new ArrayList<>();
-        positionRepository.findAll().forEach(positions::add);
-
-        return new ResponseEntity<>(positions, HttpStatus.FOUND);
+    @GetMapping(path = "positions")
+    public ResponseEntity<Iterable<Position>> findAllPositions() {
+        return new ResponseEntity<>(positionRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping()
