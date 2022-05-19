@@ -12,24 +12,11 @@ import { Observable } from 'rxjs';
 
 export class AppComponent implements OnInit {
   title = 'ng-redis';
+  positions$!: Observable<Position[]>;
 
   constructor(private redis: RedisService) {}
 
   ngOnInit(): void {
-    console.log('[ngOnInit()]...')
-    this.redis.getPositions().subscribe(
-      response => {
-        console.log(response)
-      },
-      error => {
-        console.log(error)
-      },
-      () => {
-        console.log('completed')
-      }
-    )
+    this.positions$ = this.redis.getPositions();
   }
-
-  //positions: Observable<Position[]> = this.redis.getPositions()
-
 }
