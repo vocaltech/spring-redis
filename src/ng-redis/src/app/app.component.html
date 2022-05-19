@@ -1,7 +1,17 @@
 <h2>{{ title }} is running !</h2>
 
-<div *ngFor="let position of positions | async">
-    <span>{{ position.id }}</span>
+<div *ngFor="let position of positions$ | async">
+    <span>id: {{ position.id }}</span>
+    <br>
+    <span>lt: {{ position.latitude }}</span>
+    <br>
+    <span>lg: {{ position.longitude }}</span>
+    <br>
+    <span>ts: {{ position.time }}</span>
+    <br>
+    <span>trackId: {{ position.trackId }}</span>
+    <br>
+    <span>userId: {{ position.userId }}</span>
 </div>
 
 <router-outlet></router-outlet>
