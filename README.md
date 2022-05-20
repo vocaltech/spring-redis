@@ -13,5 +13,7 @@
 | /api/positions/{id}            | PUT              | JSON           | Update position by <code>{id}</code>                |
 | /api/positions/bulk            | POST             | JSON Array     | Create bulk positions                               |
 
-### Frontend: Redis client written in Typescript
+### Frontend
+1. Redis client written in Typescript
 > npm i redis
+2. Angular client
