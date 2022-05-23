@@ -1,5 +1,8 @@
 <h2>{{ title }} is running !</h2>
 
+<a routerLink="/posform">Position form</a>
+<br><br>
+
 <div *ngFor="let position of positions$ | async">
     <span>id: {{ position.id }}</span>
     <br>
@@ -13,5 +16,7 @@
     <br>
     <span>userId: {{ position.userId }}</span>
 </div>
+
+<br><br>
 
 <router-outlet></router-outlet>
