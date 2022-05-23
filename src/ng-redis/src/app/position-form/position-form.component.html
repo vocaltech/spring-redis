@@ -1,1 +1,13 @@
-<p>position-form works!</p>
+<form [formGroup]="posForm" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="lat">Latitude</label>
+        <input type="number" formControlName="lat">
+    </div>
+
+    <div>
+        <label for="lng">Longitude</label>
+        <input type="number" formControlName="lng">
+    </div>
+
+    <button type="submit">Send position</button>
+</form>
