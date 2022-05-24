@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import  { FormBuilder } from '@angular/forms'
+import { response } from 'express';
+import { RedisService } from '../services/redis.service';
 
 @Component({
   selector: 'app-position-form',
@@ -10,16 +12,38 @@ import  { FormBuilder } from '@angular/forms'
 export class PositionFormComponent implements OnInit {
 
   posForm = this.formBuilder.group({
-    lat: '',
-    lng: ''
+    latitude: '',
+    longitude: ''
   })
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private redisService: RedisService
+  ) {}
 
   ngOnInit(): void {}
 
   onSubmit = () => {
-    console.log(this.posForm.value)
+    const newPos = {
+      ...this.posForm.value,
+      time: Math.round(Date.now() / 1000),
+      trackId: 'track_1',
+      userId: 'user_1'
+    }
+
+    this.redisService.postPosition(newPos).subscribe(
+      (response) => {
+        console.log(response)
+      },
+      (error) => {
+        console.log(error)
+      },
+      () => {
+        console.log('completed')
+      }
+    )
+
+    this.posForm.reset()
   }
 
 }
