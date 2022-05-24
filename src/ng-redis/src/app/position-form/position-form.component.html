@@ -1,12 +1,12 @@
 <form [formGroup]="posForm" (ngSubmit)="onSubmit()">
     <div>
         <label for="lat">Latitude</label>
-        <input type="number" formControlName="lat">
+        <input type="number" formControlName="latitude">
     </div>
 
     <div>
         <label for="lng">Longitude</label>
-        <input type="number" formControlName="lng">
+        <input type="number" formControlName="longitude">
     </div>
 
     <button type="submit">Send position</button>
