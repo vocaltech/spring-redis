@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import  { FormBuilder } from '@angular/forms'
+import { Router } from '@angular/router';
+
 import { RedisService } from '../services/redis.service';
 
 @Component({
@@ -16,7 +18,8 @@ export class PositionFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private redisService: RedisService
+    private redisService: RedisService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -44,6 +47,9 @@ export class PositionFormComponent implements OnInit {
 
     // clear form
     this.posForm.reset()
+
+    // redirection
+    this.router.navigateByUrl('')
     
   }
 }
