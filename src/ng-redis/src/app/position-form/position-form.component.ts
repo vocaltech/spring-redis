@@ -9,7 +9,6 @@ import { RedisService } from '../services/redis.service';
 })
 
 export class PositionFormComponent implements OnInit {
-
   posForm = this.formBuilder.group({
     latitude: '',
     longitude: ''
@@ -30,6 +29,7 @@ export class PositionFormComponent implements OnInit {
       userId: 'user_1'
     }
 
+    // post newPos
     this.redisService.postPosition(newPos).subscribe(
       (response) => {
         console.log(response)
@@ -42,7 +42,8 @@ export class PositionFormComponent implements OnInit {
       }
     )
 
+    // clear form
     this.posForm.reset()
+    
   }
-
 }
