@@ -1,1 +1,14 @@
-<p>positions-list works!</p>
+<div *ngFor="let position of positions$ | async">
+    <span>id: {{ position.id }}</span>
+    <br>
+    <span>lt: {{ position.latitude }}</span>
+    <br>
+    <span>lg: {{ position.longitude }}</span>
+    <br>
+    <span>ts: {{ position.time }}</span>
+    <br>
+    <span>trackId: {{ position.trackId }}</span>
+    <br>
+    <span>userId: {{ position.userId }}</span>
+    <br><br>
+</div>
