@@ -45,9 +45,6 @@ export class PositionFormComponent implements OnInit {
       }
     )
 
-    // clear form
-    this.posForm.reset()
-
     // redirection
     this.router.navigateByUrl('')
     
