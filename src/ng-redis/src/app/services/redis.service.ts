@@ -24,4 +24,8 @@ export class RedisService {
     return this.http.post<Position>(this.baseUrl, position)
   }
 
+  deletePositions = (): Observable<any> => {
+    return this.http.delete(this.baseUrl);
+  }
+
 }
