@@ -14,5 +14,5 @@
 </div>
 
 <div *ngIf="(positions$ | async)?.length !== 0">
-    <button type="submit">Remove all</button>
+    <button type="submit" (click)="onRemoveAllClick()">Remove all</button>
 </div>
