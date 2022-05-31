@@ -12,3 +12,7 @@
     <span>userId: {{ position.userId }}</span>
     <br><br>
 </div>
+
+<div *ngIf="(positions$ | async)?.length !== 0">
+    <button type="submit">Remove all</button>
+</div>
