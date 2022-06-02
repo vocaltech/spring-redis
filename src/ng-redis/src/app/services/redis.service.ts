@@ -28,4 +28,9 @@ export class RedisService {
     return this.http.delete(this.baseUrl);
   }
 
+  deletePositionById = (positionId: string) => {
+    const url = this.baseUrl + '/' + positionId
+    return this.http.delete<string>(url)
+  }
+
 }
