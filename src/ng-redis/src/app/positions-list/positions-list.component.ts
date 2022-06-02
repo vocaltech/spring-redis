@@ -23,6 +23,23 @@ export class PositionsListComponent implements OnInit {
     this.positions$ = this.redisService.getPositions()
   }
 
+  onDeletePositionClick = (positionId: string) => {
+    const result$: Observable<string> = this.redisService.deletePositionById(positionId)
+
+    result$.subscribe(
+      (data) => {
+        // refresh list
+        this.ngOnInit()
+      },
+      (error: any) => {
+        console.log(error)
+      },
+      () => {
+        console.log('deleteById completed !')
+      }
+    )
+  }
+
   onRemoveAllClick = () => {
     let result$!: Observable<string>
 
