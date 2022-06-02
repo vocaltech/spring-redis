@@ -107,7 +107,7 @@ public class RedisController {
     public ResponseEntity<String> deletePositionById(@PathVariable("positionId") String positionId) {
         positionRepository.deleteById(positionId);
 
-        return new ResponseEntity<>(HttpStatus.FOUND);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/positions")
