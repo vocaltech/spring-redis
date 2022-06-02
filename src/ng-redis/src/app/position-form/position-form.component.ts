@@ -42,11 +42,10 @@ export class PositionFormComponent implements OnInit {
       },
       () => {
         console.log('completed')
-      }
-    )
 
-    // redirection
-    this.router.navigateByUrl('')
-    
+        // redirection
+        this.router.navigateByUrl('')
+      }
+    )    
   }
 }
