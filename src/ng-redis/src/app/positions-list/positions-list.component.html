@@ -10,6 +10,10 @@
     <span>trackId: {{ position.trackId }}</span>
     <br>
     <span>userId: {{ position.userId }}</span>
+    <br>
+    <a routerLink="" (click)="onDeletePositionClick(position.id)">delete</a>
+    |
+    <a routerLink="">edit</a>
     <br><br>
 </div>
 
