@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PositionFormComponent } from './position-form/position-form.component';
 import { PositionsListComponent } from './positions-list/positions-list.component';
+import { PositionUpdateFormComponent } from './position-update-form/position-update-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PositionFormComponent,
-    PositionsListComponent
+    PositionsListComponent,
+    PositionUpdateFormComponent
   ],
   imports: [
     BrowserModule,
