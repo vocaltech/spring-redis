@@ -33,4 +33,8 @@ export class RedisService {
     return this.http.delete<string>(url)
   }
 
+  updatePositionById = (position: Position): Observable<Position> => {
+    const url = this.baseUrl + '/' + position.id;
+    return this.http.put<Position>(url, position)
+  }
 }
