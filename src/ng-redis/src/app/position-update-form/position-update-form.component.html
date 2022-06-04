@@ -1,1 +1,21 @@
-<p>position-update-form works!</p>
+<div>
+    <span>id: {{ position.id }}</span>
+    <br>
+    <span>ts: {{ position.time }}</span>
+    <br>
+    <span>trackId: {{ position.trackId }}</span>
+    <br>
+    <span>userId: {{ position.userId }}</span>
+    <br>
+
+    <form>
+        <label>lt:</label>
+        <input type="text" [value]="position.latitude">
+        <br>
+        <label>lg:</label>
+        <input type="text" [value]="position.longitude">
+        <br>
+        <button type="submit">Update</button>
+        <button type="button">Cancel</button>
+    </form>
+</div>
