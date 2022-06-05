@@ -8,14 +8,14 @@
     <span>userId: {{ position.userId }}</span>
     <br>
 
-    <form>
-        <label>lt:</label>
-        <input type="text" [value]="position.latitude">
+    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+        <label for="latitude">lt:</label>
+        <input type="text" formControlName="latitude">
         <br>
-        <label>lg:</label>
-        <input type="text" [value]="position.longitude">
+        <label for="longitude">lg:</label>
+        <input type="text" formControlName="longitude">
         <br>
         <button type="submit">Update</button>
-        <button type="button">Cancel</button>
+        <button type="button" (click)="onCancel()">Cancel</button>
     </form>
 </div>
