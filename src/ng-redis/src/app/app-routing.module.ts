@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PositionFormComponent } from './position-form/position-form.component';
+import { PositionAddFormComponent } from './position-add-form/position-add-form.component';
 import { PositionUpdateFormComponent } from './position-update-form/position-update-form.component';
 import { PositionsListComponent } from './positions-list/positions-list.component';
 
 const routes: Routes = [
   { path: '', component: PositionsListComponent },
-  { path: 'posform', component: PositionFormComponent },
+  { path: 'addform', component: PositionAddFormComponent },
   { path: 'updateform', component: PositionUpdateFormComponent }
 ];
 
