@@ -24,6 +24,10 @@ export class PositionAddFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  onCancel = () => {
+    this.router.navigateByUrl('')
+  }
+
   onSubmit = () => {
     const newPos = {
       ...this.addForm.value,
