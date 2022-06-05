@@ -1,1 +1,14 @@
-<p>position-add-form works!</p>
+<form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="latitude">Latitude</label>
+        <input type="number" formControlName="latitude">
+    </div>
+
+    <div>
+        <label for="longitude">Longitude</label>
+        <input type="number" formControlName="longitude">
+    </div>
+
+    <button type="submit">Add position</button>
+</form>
+
