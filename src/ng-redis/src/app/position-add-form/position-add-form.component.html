@@ -1,16 +1,19 @@
 <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
     <div>
-        <label for="latitude">Latitude</label>
-        <input type="number" formControlName="latitude">
+        <mat-form-field appearance="fill">
+            <mat-label>Latitude</mat-label>
+            <input matInput placeholder="Enter latitude" type="number" formControlName="latitude">
+        </mat-form-field>
     </div>
 
     <div>
-        <label for="longitude">Longitude</label>
-        <input type="number" formControlName="longitude">
+        <mat-form-field appearance="fill">
+            <mat-label>Longitude</mat-label>
+            <input matInput placeholder="Enter longitude" type="number" formControlName="longitude">
+        </mat-form-field>
     </div>
 
     <button mat-raised-button color="primary">Add position</button>
     <button mat-button (click)="onCancel()">Cancel</button>
-
 </form>
 
